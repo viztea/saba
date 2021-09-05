@@ -1,4 +1,4 @@
-package lol.saba.client
+package lol.saba.app
 
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
