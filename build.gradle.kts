@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-    group = "lol.dimensional"
+    group = "lol.saba"
 
     repositories {
         maven("https://dimensional.jfrog.io/artifactory/maven")

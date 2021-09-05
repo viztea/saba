@@ -4,10 +4,9 @@ import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
-import lol.saba.server.networking.message.ClientRole
-import lol.saba.server.networking.message.Identify
-import lol.saba.server.networking.message.IdentifyActor
-import lol.saba.server.util.extensions.read
+import lol.saba.common.ClientRole
+import lol.saba.common.messages.impl.Identify
+import lol.saba.common.extensions.read
 import org.slf4j.LoggerFactory
 import java.util.concurrent.Executors
 import kotlin.coroutines.CoroutineContext
@@ -40,14 +39,14 @@ class NetworkManager : CoroutineScope {
                     if (identify is Identify) {
                         val client = when (identify.role) {
                             ClientRole.Actor -> {
-                                val roleInfo = readChannel.read<IdentifyActor>()
+                                val roleInfo = readChannel.read<Identify.Actor>()
                                 SabaClient(socket, readChannel, roleInfo.userId)
                             }
 
                             ClientRole.Director -> SabaClient(socket, readChannel, null)
                         }
 
-                        logger.info("Client connected as ${identify.role::class.simpleName}")
+                        logger.info("Client connected as ${identify.role.name}")
                         launch {
                             client.listen()
                         }

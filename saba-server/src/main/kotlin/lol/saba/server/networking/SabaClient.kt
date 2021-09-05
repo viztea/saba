@@ -2,11 +2,11 @@ package lol.saba.server.networking
 
 import io.ktor.network.sockets.*
 import io.ktor.utils.io.*
-import lol.saba.server.networking.message.MessageDirection
-import lol.saba.server.networking.message.SabaMessage
-import lol.saba.server.networking.message.impl.Close
-import lol.saba.server.util.extensions.read
-import lol.saba.server.util.extensions.write
+import lol.saba.common.messages.MessageDirection
+import lol.saba.common.messages.SabaMessage
+import lol.saba.common.messages.impl.Close
+import lol.saba.common.extensions.read
+import lol.saba.common.extensions.write
 import org.slf4j.LoggerFactory
 
 class SabaClient(val socket: Socket, val readChannel: ByteReadChannel, val userId: Long?) {
