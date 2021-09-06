@@ -64,6 +64,7 @@ class SabaClient(val id: UUID, val socket: Socket) : CoroutineScope {
         if (role == ClientRole.Actor) {
             val (userId) = readChannel.read<Identify.Actor>()
             this.userId = userId
+            findOldSession()
         }
 
         init()
