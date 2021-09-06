@@ -4,12 +4,13 @@ plugins {
 
 apply(plugin = "kotlin")
 apply(plugin = "kotlinx-serialization")
+apply(plugin = "com.github.johnrengelman.shadow")
 
 description = "Runs the saba communication server."
 version = "1.0.0"
 
 application {
-    mainClass.set("lol.saba.server.Launcher")
+    mainClass.set("lol.saba.server.Saba")
 }
 
 dependencies {
@@ -19,8 +20,19 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.2.2")
 
     /* ktor */
-    implementation("io.ktor:ktor-network:1.6.3")
+    val ktorVersion = "1.6.3"
+    
+    // server
+    implementation("io.ktor:ktor-server-cio:$ktorVersion")
+    implementation("io.ktor:ktor-server-core:$ktorVersion")
+    implementation("io.ktor:ktor-serialization:$ktorVersion")
+    implementation("io.ktor:ktor-network:$ktorVersion")
 
+    // client
+    implementation("io.ktor:ktor-client-cio:$ktorVersion")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-serialization:$ktorVersion")
+    
     /* logging */
     implementation("ch.qos.logback:logback-classic:1.2.5")
 

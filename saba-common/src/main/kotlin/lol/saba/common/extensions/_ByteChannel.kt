@@ -5,11 +5,19 @@ import lol.saba.common.messages.MessageDirection
 import lol.saba.common.messages.MessageUtil
 import lol.saba.common.messages.SabaMessage
 
-suspend inline fun <reified T : SabaMessage> ByteReadChannel.read(): T {
+suspend inline fun <reified T : SabaMessage> ByteReadChannel.read(awaitContent: Boolean = true): T {
+    if (awaitContent) {
+        awaitContent()
+    }
+
     return MessageUtil.read(this)
 }
 
-suspend fun ByteReadChannel.read(direction: MessageDirection): SabaMessage? {
+suspend fun ByteReadChannel.read(direction: MessageDirection, awaitContent: Boolean = true): SabaMessage? {
+    if (awaitContent) {
+        awaitContent()
+    }
+
     return MessageUtil.read(this, direction)
 }
 

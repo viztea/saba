@@ -1,4 +1,4 @@
-package lol.saba.common.messages.impl
+package lol.saba.common.messages.bi
 
 import kotlinx.serialization.Serializable
 import lol.saba.common.messages.SabaMessage
