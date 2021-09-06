@@ -36,6 +36,9 @@ dependencies {
     /* logging */
     implementation("ch.qos.logback:logback-classic:1.2.5")
 
+    /* config */
+    implementation("com.typesafe:config:1.4.1")
+
     /* saba */
     implementation(project(":saba-common"))
 }

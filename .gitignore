@@ -5,4 +5,4 @@ build/
 out/
 
 .env
-saba.conf
+application.conf

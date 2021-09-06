@@ -59,7 +59,7 @@ class Director : CoroutineScope {
     suspend fun connect() {
         socket = aSocket(ActorSelectorManager(Dispatchers.IO))
             .tcp()
-            .connect(hostname = "144.172.83.71", port = 6609)
+            .connect(hostname = Bot.config.getString("host"), port = 6609)
 
         logger.info("Connected to Saba server")
 
