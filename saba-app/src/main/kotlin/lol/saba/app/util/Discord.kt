@@ -7,6 +7,7 @@ import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import javafx.scene.image.Image
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.LongAsStringSerializer
@@ -60,5 +61,13 @@ class Discord(val saba: SabaApp) {
     }
 
     @Serializable
-    data class DiscordUser(@Serializable(with = LongAsStringSerializer::class) val id: Long, val username: String, val discriminator: String, val avatar: String?)
+    data class DiscordUser(@Serializable(with = LongAsStringSerializer::class) val id: Long, val username: String, val discriminator: String, val avatar: String?) {
+        companion object {
+            const val IMAGE_SIZE = 48.0
+        }
+
+        val avatarImage by lazy {
+            avatar?.let { hash -> Image("https://cdn.discordapp.com/avatars/$id/$hash.png?size=$IMAGE_SIZE", IMAGE_SIZE, IMAGE_SIZE, true, true) }
+        }
+    }
 }

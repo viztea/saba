@@ -32,6 +32,7 @@ dependencies {
     implementation("com.sedmelluq:lavaplayer:1.4.6.1")
     implementation("com.github.natanbc:lp-cross:0.1.3-1")
     implementation("com.github.natanbc:native-loader:0.7.2")
+    implementation("com.squareup.okio:okio:3.0.0-alpha.10")
 
     /* server for oauth */
     implementation("com.sparkjava:spark-kotlin:1.0.0-alpha")

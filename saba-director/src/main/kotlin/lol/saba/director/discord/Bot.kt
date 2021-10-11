@@ -118,16 +118,16 @@ object Bot {
 
         val itemLoader = players.items.createItemLoader(query)
         itemLoader.resultHandler = object : ItemLoadResultAdapter() {
-            override fun onTrackLoad(track: AudioTrack) = runBlocking {
-                sessions[channel.guildId.value]?.play(track) ?: Unit
+            override fun onTrackLoad(track: AudioTrack): Unit = runBlocking {
+                sessions[channel.guildId.value]?.play(track)
+                    ?: return@runBlocking
+
                 interaction.reply {
                     embed {
                         description = "Now playing [**${track.info.title}**](${track.info.uri})"
                         color = Color(0x7affaf)
                     }
                 }
-
-                Unit
             }
 
             override fun onCollectionLoad(collection: AudioTrackCollection) {

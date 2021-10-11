@@ -1,5 +1,5 @@
 <configuration debug="false">
-    <variable name="MX_LOG_LEVEL" value="${MX_LOG_LEVEL:-INFO}"/>
+    <variable name="MX_LOG_LEVEL" value="${MX_LOG_LEVEL:-DEBUG}"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>

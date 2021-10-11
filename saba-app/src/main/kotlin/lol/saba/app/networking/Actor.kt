@@ -46,7 +46,7 @@ class Actor(val saba: SabaApp) : CoroutineScope {
     init {
         on<SessionMetadata> {
             saba.session?.shutdown()
-            saba.session = ActorSession(saba, it.info.guild, it.info)
+            saba.session = ActorSession(saba, it.info.guild)
             it.info.currentTrack?.let { track -> saba.session?.play(track) }
         }
 

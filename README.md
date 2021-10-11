@@ -9,6 +9,8 @@
 - **saba-director:** a saba director, in this case, a discord bot
 - **saba-server:** the saba server, this handles communication between a director, and it's movies (sessions).
 
+![saba app](assets/saba.png)
+
 ---
 
 melike2d &copy; 2021
