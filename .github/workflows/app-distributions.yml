@@ -19,7 +19,7 @@ jobs:
             - name: Upload assets to GitHub
               uses: AButler/upload-release-assets@v2.0
               with:
-                  files: 'saba-app/build/compose/binaries/main/app/saba-app/bin/*;LICENSE'
+                  files: 'saba-app/build/compose/binaries/main/**;LICENSE'
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
     windows:
         runs-on: windows-latest
@@ -35,7 +35,7 @@ jobs:
             - name: Upload assets to GitHub
               uses: AButler/upload-release-assets@v2.0
               with:
-                  files: 'saba-app/build/compose/binaries/main/app/saba-app/bin/*;LICENSE'
+                  files: 'saba-app/build/compose/binaries/main/**;LICENSE'
                   repo-token: ${{ secrets.GITHUB_TOKEN }}
 #    macos:
 #        runs-on: ubuntu-latest
