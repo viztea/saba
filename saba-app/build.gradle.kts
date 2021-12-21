@@ -1,23 +1,33 @@
-plugins {
-    application
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
-    id("org.openjfx.javafxplugin") version "0.0.9"
+plugins {
+    idea
+    java
+
+    id("org.jetbrains.compose") version "1.0.1-rc2"
+    kotlin("jvm")
 }
 
-apply(plugin = "kotlin")
 apply(plugin = "kotlinx-serialization")
 apply(plugin = "com.github.johnrengelman.shadow")
 
 description = "A desktop application for saba"
 version = "1.0.0"
 
-application {
-    mainClass.set("lol.saba.app.SabaApp")
+compose.desktop {
+    application {
+        mainClass = "lol.saba.app.MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
+        }
+    }
+
 }
 
-javafx {
-    version = "15.0.1"
-    modules = listOf("javafx.controls")
+repositories {
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    google()
 }
 
 dependencies {
@@ -35,6 +45,9 @@ dependencies {
 
     /* server for oauth */
     implementation("com.sparkjava:spark-kotlin:1.0.0-alpha")
+
+    /* ui */
+    implementation(compose.desktop.currentOs)
 
     /* ktor */
     val ktorVersion = "1.6.7"

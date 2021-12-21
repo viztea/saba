@@ -1,0 +1,55 @@
+name: App Distributions
+on:
+    release:
+        types:
+            - published
+
+jobs:
+    linux:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout sources
+              uses: actions/checkout@v2
+            - name: Set up JDK 16
+              uses: actions/setup-java@v1
+              with:
+                  java-version: 16
+            - name: Build artifacts
+              run: ./gradlew createDistributable
+            - name: Upload assets to GitHub
+              uses: AButler/upload-release-assets@v2.0
+              with:
+                  files: 'build/compose/binaries/main/app/saba-app/bin*;LICENSE'
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+    windows:
+        runs-on: windows-latest
+        steps:
+            - name: Checkout sources
+              uses: actions/checkout@v2
+            - name: Set up JDK 16
+              uses: actions/setup-java@v1
+              with:
+                  java-version: 16
+            - name: Build artifacts
+              run: ./gradlew createDistributable
+            - name: Upload assets to GitHub
+              uses: AButler/upload-release-assets@v2.0
+              with:
+                  files: 'build/compose/binaries/main/app/saba-app/bin*;LICENSE'
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+#    macos:
+#        runs-on: ubuntu-latest
+#        steps:
+#            - name: Checkout sources
+#              uses: actions/checkout@v2
+#            - name: Set up JDK 16
+#              uses: actions/setup-java@v1
+#              with:
+#                  java-version: 16
+#            - name: Build artifacts
+#              run: ./gradlew build
+#            - name: Upload assets to GitHub
+#              uses: AButler/upload-release-assets@v2.0
+#              with:
+#                  files: 'build/compose/binaries/main/app/saba-app/bin*;LICENSE'
+#                  repo-token: ${{ secrets.GITHUB_TOKEN }}

@@ -22,7 +22,7 @@ class ActorSession(val saba: SabaApp, val guild: Long) : AudioEventAdapter() {
         private val logger = LoggerFactory.getLogger(ActorSession::class.java)
     }
 
-    private val player = saba.players
+    internal val player = saba.players
         .createPlayer()
         .also { it.addListener(this) }
 
@@ -32,6 +32,10 @@ class ActorSession(val saba: SabaApp, val guild: Long) : AudioEventAdapter() {
     private val dataLine: SourceDataLine = AudioSystem.getLine(DataLine.Info(SourceDataLine::class.java, stream.format)) as SourceDataLine
 
     var polling: Boolean = false
+
+    init {
+        saba.updateVolume()
+    }
 
     fun poll() = saba.launch {
         withContext(Dispatchers.IO) {
@@ -92,7 +96,7 @@ class ActorSession(val saba: SabaApp, val guild: Long) : AudioEventAdapter() {
             poll()
         }
 
-        saba.nowPlayingText.text = track.info.title
+        saba.nowPlaying.value = track.info.title
 
         player.startTrack(track, false)
     }
