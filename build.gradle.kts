@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.6.10"
 }
 
 allprojects {
@@ -11,6 +11,7 @@ allprojects {
         maven("https://m2.dv8tion.net/releases")
         maven("https://jitpack.io")
         jcenter()
+        mavenCentral()
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
@@ -40,7 +41,7 @@ subprojects {
 
         dependencies {
             classpath("gradle.plugin.com.github.jengelman.gradle.plugins:shadow:7.0.0")
-            classpath("org.jetbrains.kotlin:kotlin-serialization:1.5.30")
+            classpath("org.jetbrains.kotlin:kotlin-serialization:1.6.10")
         }
     }
 }

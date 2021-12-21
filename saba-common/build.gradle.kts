@@ -13,7 +13,7 @@ application {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.2.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.1")
     implementation("com.sedmelluq:lavaplayer:1.4.6.1")
-    implementation("io.ktor:ktor-network:1.6.3")
+    implementation("io.ktor:ktor-network:1.6.7")
 }

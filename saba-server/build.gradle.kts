@@ -15,12 +15,12 @@ application {
 
 dependencies {
     /* kotlin */
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.30")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.2.2")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.10")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.1")
 
     /* ktor */
-    val ktorVersion = "1.6.3"
+    val ktorVersion = "1.6.7"
     
     // server
     implementation("io.ktor:ktor-server-cio:$ktorVersion")
@@ -34,7 +34,8 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktorVersion")
     
     /* logging */
-    implementation("ch.qos.logback:logback-classic:1.2.5")
+    implementation("ch.qos.logback:logback-classic:1.2.8")
+    implementation("io.github.microutils:kotlin-logging-jvm:2.1.20")
 
     /* config */
     implementation("com.typesafe:config:1.4.1")
