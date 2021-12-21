@@ -15,7 +15,7 @@ jobs:
               with:
                   java-version: 16
             - name: Build artifacts
-              run: ./gradlew createDistributable
+              run: ./gradlew package
             - name: Upload assets to GitHub
               uses: AButler/upload-release-assets@v2.0
               with:
@@ -31,7 +31,7 @@ jobs:
               with:
                   java-version: 16
             - name: Build artifacts
-              run: ./gradlew createDistributable
+              run: ./gradlew package
             - name: Upload assets to GitHub
               uses: AButler/upload-release-assets@v2.0
               with:
