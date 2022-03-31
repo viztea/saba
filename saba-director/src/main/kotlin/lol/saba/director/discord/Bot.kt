@@ -42,6 +42,8 @@ object Bot {
 
     @OptIn(PrivilegedIntent::class)
     suspend fun start() {
+        director.connect()
+
         SourceRegistry.registerRemoteSources(players)
 
         val kord = Kord(config.getString("token")) {
@@ -71,7 +73,6 @@ object Bot {
             }
         })
 
-        director.connect()
         kord.login()
     }
 

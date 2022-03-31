@@ -23,6 +23,7 @@ import lol.saba.app.util.Discord.DiscordUser.Companion.IMAGE_SIZE
 import lol.saba.app.util.HttpTools
 import java.awt.Desktop
 import java.net.URI
+import kotlin.math.roundToInt
 
 suspend fun main() = application {
     fun close() {
@@ -95,10 +96,12 @@ suspend fun main() = application {
                             onValueChange = { volume.value = it; saba.updateVolume() },
                             steps = 10,
                             modifier = Modifier.size(
-                                width = min(windowState.size.width - 10.dp, 250.dp),
+                                width = min(windowState.size.width - 20.dp, 250.dp),
                                 height = 5.dp
                             ),
                         )
+
+                        Text(" ${(volume.value * 100f).roundToInt()}%", color = Color.White)
                     }
                 }
             }

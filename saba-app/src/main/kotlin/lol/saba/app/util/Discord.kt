@@ -9,10 +9,15 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.LongAsStringSerializer
 import lol.saba.app.SabaApp
+import mu.KotlinLogging
 import spark.kotlin.get
 import spark.kotlin.port
 
 class Discord(val saba: SabaApp) {
+    companion object {
+        val log = KotlinLogging.logger {  }
+    }
+
     val redirectUri: String
         get() = "http://${saba.config.getString("server.host")}:${saba.config.getInt("server.http-port")}/discord/login"
 
@@ -37,18 +42,26 @@ class Discord(val saba: SabaApp) {
         val accessToken = accessToken
             ?: return null
 
-        val response = HttpTools.client.get<HttpResponse>("https://discord.com/api/v9/users/@me") {
-            header("Authorization", "Bearer $accessToken")
-        }
+        return try {
+            val response = HttpTools.client.get<HttpResponse>("https://discord.com/api/v10/users/@me") {
+                header("Authorization", "Bearer $accessToken")
+            }
 
-        return when (response.status) {
-            HttpStatusCode.OK -> response.receive()
+            when (response.status) {
+                HttpStatusCode.OK -> response.receive()
 
-            HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden -> null
+                HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden -> null
 
-            else -> error("Can't make request to discord lol")
+                else -> error("Can't make request to discord lol")
+            }
+        } catch (e: Exception) {
+            log.error(e) { "Failed to get self." }
+            null
         }
     }
+
+    @Serializable
+    data class DiscordGuild(val name: String, @Serializable(with = LongAsStringSerializer::class) val id: Long)
 
     @Serializable
     data class DiscordUser(@Serializable(with = LongAsStringSerializer::class) val id: Long, val username: String, val discriminator: String, val avatar: String?) {

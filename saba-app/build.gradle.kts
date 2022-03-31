@@ -19,7 +19,13 @@ compose.desktop {
         mainClass = "lol.saba.app.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+
+            packageName = "Saba"
+            packageVersion = "1.0.0"
+
+            description = "Desktop Actor for Saba"
+            vendor = "Dimensional Fun"
         }
     }
 
@@ -36,6 +42,11 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.1")
+
+    /* discord rpc */
+    implementation("com.github.Vatuu:discord-rpc:1.6.2")
+    implementation("com.github.Vatuu:discord-rpc-binaries:3.4.0")
+
 
     /* audio playing */
     implementation("com.sedmelluq:lavaplayer:1.4.6.1")

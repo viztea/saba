@@ -35,7 +35,7 @@ class HttpManager : CoroutineScope {
         "http%3A%2F%2F${Saba.config.getString("host")}%3A6610%2Fdiscord%2Fcallback"
 
     val redirectUrl =
-        "https://discord.com/api/oauth2/authorize?client_id=884188784856559656&redirect_uri=$discordRedirectUri&response_type=code&scope=identify"
+        "https://discord.com/api/oauth2/authorize?client_id=884188784856559656&redirect_uri=$discordRedirectUri&response_type=code&scope=identify+guilds"
 
     val client = HttpClient(io.ktor.client.engine.cio.CIO) {
         install(JsonFeature) {

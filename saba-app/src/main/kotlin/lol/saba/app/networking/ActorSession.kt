@@ -5,10 +5,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import lavaplayer.format.AudioDataFormat
 import lavaplayer.format.AudioPlayerInputStream
+import lavaplayer.format.StandardAudioDataFormats
+import lavaplayer.manager.AudioPlayer
 import lavaplayer.manager.event.AudioEventAdapter
 import lavaplayer.tools.extensions.addListener
 import lavaplayer.track.AudioTrack
+import lavaplayer.track.AudioTrackEndReason
 import lol.saba.app.SabaApp
+import lol.saba.app.util.Discord
 import lol.saba.common.entity.Track
 import okio.Buffer
 import org.slf4j.LoggerFactory
@@ -17,7 +21,7 @@ import javax.sound.sampled.AudioSystem
 import javax.sound.sampled.DataLine
 import javax.sound.sampled.SourceDataLine
 
-class ActorSession(val saba: SabaApp, val guild: Long) : AudioEventAdapter() {
+class ActorSession(val saba: SabaApp, val guildId: Long) : AudioEventAdapter() {
     companion object {
         private val logger = LoggerFactory.getLogger(ActorSession::class.java)
     }
@@ -26,15 +30,18 @@ class ActorSession(val saba: SabaApp, val guild: Long) : AudioEventAdapter() {
         .createPlayer()
         .also { it.addListener(this) }
 
+    private var guild: Discord.DiscordGuild? = null
     private val format: AudioDataFormat = saba.players.configuration.outputFormat
     private val buffer = Buffer()
-    private val stream: AudioInputStream = AudioPlayerInputStream.createStream(player, format, 10000, true)
+    private val stream: AudioInputStream = AudioPlayerInputStream.createStream(player, StandardAudioDataFormats.COMMON_PCM_S16_BE, 10000, false)
     private val dataLine: SourceDataLine = AudioSystem.getLine(DataLine.Info(SourceDataLine::class.java, stream.format)) as SourceDataLine
 
     var polling: Boolean = false
 
     init {
         saba.updateVolume()
+        guild = saba.guilds.find { it.id == guildId }
+        updatePresence()
     }
 
     fun poll() = saba.launch {
@@ -70,6 +77,13 @@ class ActorSession(val saba: SabaApp, val guild: Long) : AudioEventAdapter() {
         }
     }
 
+    override fun onTrackEnd(player: AudioPlayer, track: AudioTrack, endReason: AudioTrackEndReason) {
+        saba.nowPlaying.value = "nothing"
+        SabaApp.updateRpc("Playing nothing") {
+            setDetails(guild?.name ?: guildId.toString())
+        }
+    }
+
     fun shutdown() {
         player.stopTrack()
         stream.close()
@@ -97,7 +111,19 @@ class ActorSession(val saba: SabaApp, val guild: Long) : AudioEventAdapter() {
         }
 
         saba.nowPlaying.value = track.info.title
-
         player.startTrack(track, false)
+        updatePresence()
+    }
+
+    fun updatePresence() {
+        SabaApp.updateRpc(if (saba.nowPlaying.value == "nothing") "Playing nothing" else saba.nowPlaying.value) {
+            setDetails(guild?.name ?: guildId.toString())
+
+            player.playingTrack?.let {
+                val now = System.currentTimeMillis()
+                setStartTimestamps(now)
+                setEndTimestamp(now + it.duration)
+            }
+        }
     }
 }

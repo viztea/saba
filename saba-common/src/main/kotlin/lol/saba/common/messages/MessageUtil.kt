@@ -22,7 +22,7 @@ object MessageUtil {
 
     suspend fun <T : SabaMessage> write(writeChannel: ByteWriteChannel, direction: MessageDirection, message: T) {
         val (id, type) = MessageDirection.find(direction, message::class)
-            ?: throw error("Unknown message type.")
+            ?: error("Unknown message type.")
 
         val packet = protobuf.encodeToByteArray(type.serializer() as SerializationStrategy<T>, message)
 
